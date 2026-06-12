@@ -11,9 +11,6 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <DevelopmentDependency>true</DevelopmentDependency>
-    
     <Authors>adwitkow</Authors>
     <Description>Fluent builder for manual Harmony patch registration</Description>
     <RepositoryUrl>https://github.com/adwitkow/Harmony.PatchBuilder</RepositoryUrl>
