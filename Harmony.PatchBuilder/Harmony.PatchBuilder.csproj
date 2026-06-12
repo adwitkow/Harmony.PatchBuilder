@@ -5,13 +5,23 @@
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <RootNamespace>HarmonyLib.PatchBuilder</RootNamespace>
-    <Authors>adwitkow</Authors>
-    <Description>Fluent builder for Harmony patches</Description>
-    <RepositoryUrl>https://github.com/adwitkow/Harmony.PatchBuilder</RepositoryUrl>
+
+    <GITHUB_RUN_NUMBER Condition="$(GITHUB_RUN_NUMBER) == ''">0</GITHUB_RUN_NUMBER>
+    <Version>1.0.0.$(GITHUB_RUN_NUMBER)</Version>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <DevelopmentDependency>true</DevelopmentDependency>
+    
+    <Authors>adwitkow</Authors>
+    <Description>Fluent builder for manual Harmony patch registration</Description>
+    <RepositoryUrl>https://github.com/adwitkow/Harmony.PatchBuilder</RepositoryUrl>
+  </PropertyGroup>
+  
   <ItemGroup>
     <PackageReference Include="Lib.Harmony" Version="2.4.2" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All"/>
   </ItemGroup>
 
 </Project>

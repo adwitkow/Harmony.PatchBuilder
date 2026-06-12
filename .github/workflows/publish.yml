@@ -1,0 +1,58 @@
+name: Publish
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - '.github/workflows/publish.yml'
+      - 'src/**'
+      - 'resources/**'
+  workflow_dispatch:
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+jobs:
+  publish:
+    name: Publish packages
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.x.x
+          
+      - name: Restore
+        run: dotnet restore
+
+      # Build + pack
+      - name: Build & Pack
+        run: |
+          dotnet pack -c Release -o ./packages
+
+      # Push to NuGet.org
+      - name: Push to NuGet.org
+        run: |
+          dotnet nuget push "./packages/*.nupkg" \
+            --source https://api.nuget.org/v3/index.json \
+            --api-key ${{ secrets.NUGET_API_KEY }} \
+            --skip-duplicate
+
+      # Push to GitHub Packages
+      - name: Push to GitHub Packages
+        run: |
+          dotnet nuget push "./packages/*.nupkg" \
+            --source https://nuget.pkg.github.com/adwitkow/index.json \
+            --api-key ${{ secrets.GITHUB_TOKEN }} \
+            --skip-duplicate
