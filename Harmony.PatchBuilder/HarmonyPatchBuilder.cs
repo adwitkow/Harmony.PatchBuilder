@@ -79,6 +79,18 @@ public class HarmonyPatchBuilder
         return this;
     }
 
+    public HarmonyPatchBuilder Transpiler(Delegate transpiler)
+    {
+        Apply(_method, transpiler: transpiler);
+        return this;
+    }
+
+    public HarmonyPatchBuilder Finalizer(Delegate finalizer)
+    {
+        Apply(_method, finalizer: finalizer);
+        return this;
+    }
+
     protected void Apply(
         MethodBase? original,
         Delegate? prefix = null,
@@ -192,6 +204,18 @@ public class HarmonyPatchBuilder<T> : HarmonyPatchBuilder
     public new HarmonyPatchBuilder<T> Postfix(Delegate postfix)
     {
         base.Postfix(postfix);
+        return this;
+    }
+
+    public new HarmonyPatchBuilder Transpiler(Delegate transpiler)
+    {
+        base.Transpiler(transpiler);
+        return this;
+    }
+
+    public new HarmonyPatchBuilder Finalizer(Delegate finalizer)
+    {
+        base.Transpiler(finalizer);
         return this;
     }
 }
