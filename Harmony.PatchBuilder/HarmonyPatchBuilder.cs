@@ -1,10 +1,7 @@
-﻿using HarmonyLib;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
 
 namespace HarmonyLib.PatchBuilder;
 
@@ -34,9 +31,11 @@ public class HarmonyPatchBuilder
     }
 
     public HarmonyPatchBuilder Method<T>(
-        string targetMethodName)
+        string targetMethodName,
+        Type[]? parameters = null,
+        Type[]? generics = null)
     {
-        _method = AccessTools.Method(typeof(T), targetMethodName);
+        _method = AccessTools.Method(typeof(T), targetMethodName, parameters, generics);
         return this;
     }
 
@@ -55,9 +54,11 @@ public class HarmonyPatchBuilder
 
     public HarmonyPatchBuilder Method(
         Type type,
-        string targetMethodName)
+        string targetMethodName,
+        Type[]? parameters = null,
+        Type[]? generics = null)
     {
-        _method = AccessTools.Method(type, targetMethodName);
+        _method = AccessTools.Method(type, targetMethodName, parameters, generics);
         return this;
     }
 
@@ -183,9 +184,11 @@ public class HarmonyPatchBuilder<T> : HarmonyPatchBuilder
     }
 
     public HarmonyPatchBuilder<T> Method(
-        string targetMethodName)
+        string targetMethodName,
+        Type[]? parameters = null,
+        Type[]? generics = null)
     {
-        base.Method<T>(targetMethodName);
+        base.Method<T>(targetMethodName, parameters, generics);
         return this;
     }
 
