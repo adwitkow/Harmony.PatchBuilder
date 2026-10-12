@@ -1,36 +1,40 @@
-﻿using System;
+﻿#pragma warning disable
+#nullable enable
+
+using HarmonyLib;
+using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
 namespace HarmonyLib.PatchBuilder;
 
-public class HarmonyPatchBuilder
+internal class HarmonyPatchBuilder
 {
     private readonly Harmony _harmony;
 
     private MethodBase? _method;
 
-    public HarmonyPatchBuilder(Harmony harmony)
+    internal HarmonyPatchBuilder(Harmony harmony)
     {
         _harmony = harmony;
     }
 
-    public HarmonyPatchBuilder Method<T>(
+    internal HarmonyPatchBuilder Method<T>(
         Expression<Action<T>> target)
     {
         _method = ResolveMethod<T>(target);
         return this;
     }
 
-    public HarmonyPatchBuilder Method<T>(
+    internal HarmonyPatchBuilder Method<T>(
         Expression<Func<T, object>> target)
     {
         _method = ResolveMethod<T>(target);
         return this;
     }
 
-    public HarmonyPatchBuilder Method<T>(
+    internal HarmonyPatchBuilder Method<T>(
         string targetMethodName,
         Type[]? parameters = null,
         Type[]? generics = null)
@@ -39,20 +43,20 @@ public class HarmonyPatchBuilder
         return this;
     }
 
-    public HarmonyPatchBuilder Method(Expression<Action> target)
+    internal HarmonyPatchBuilder Method(Expression<Action> target)
     {
         _method = ExtractMethod(target);
         return this;
     }
 
-    public HarmonyPatchBuilder Method<TResult>(
+    internal HarmonyPatchBuilder Method<TResult>(
         Expression<Func<TResult>> target)
     {
         _method = ExtractMethod(target);
         return this;
     }
 
-    public HarmonyPatchBuilder Method(
+    internal HarmonyPatchBuilder Method(
         Type type,
         string targetMethodName,
         Type[]? parameters = null,
@@ -62,31 +66,31 @@ public class HarmonyPatchBuilder
         return this;
     }
 
-    public HarmonyPatchBuilder Constructor<T>(Type[]? parameters = null)
+    internal HarmonyPatchBuilder Constructor<T>(Type[]? parameters = null)
     {
         _method = AccessTools.Constructor(typeof(T), parameters);
         return this;
     }
 
-    public HarmonyPatchBuilder Prefix(Delegate prefix)
+    internal HarmonyPatchBuilder Prefix(Delegate prefix)
     {
         Apply(_method, prefix: prefix);
         return this;
     }
 
-    public HarmonyPatchBuilder Postfix(Delegate postfix)
+    internal HarmonyPatchBuilder Postfix(Delegate postfix)
     {
         Apply(_method, postfix: postfix);
         return this;
     }
 
-    public HarmonyPatchBuilder Transpiler(Delegate transpiler)
+    internal HarmonyPatchBuilder Transpiler(Delegate transpiler)
     {
         Apply(_method, transpiler: transpiler);
         return this;
     }
 
-    public HarmonyPatchBuilder Finalizer(Delegate finalizer)
+    internal HarmonyPatchBuilder Finalizer(Delegate finalizer)
     {
         Apply(_method, finalizer: finalizer);
         return this;
@@ -165,25 +169,25 @@ public class HarmonyPatchBuilder
     }
 }
 
-public class HarmonyPatchBuilder<T> : HarmonyPatchBuilder
+internal class HarmonyPatchBuilder<T> : HarmonyPatchBuilder
 {
-    public HarmonyPatchBuilder(Harmony harmony) : base(harmony) { }
+    internal HarmonyPatchBuilder(Harmony harmony) : base(harmony) { }
 
-    public HarmonyPatchBuilder<T> Method(
+    internal HarmonyPatchBuilder<T> Method(
         Expression<Action<T>> target)
     {
         base.Method<T>(target);
         return this;
     }
 
-    public HarmonyPatchBuilder<T> Method(
+    internal HarmonyPatchBuilder<T> Method(
         Expression<Func<T, object>> target)
     {
         base.Method<T>(target);
         return this;
     }
 
-    public HarmonyPatchBuilder<T> Method(
+    internal HarmonyPatchBuilder<T> Method(
         string targetMethodName,
         Type[]? parameters = null,
         Type[]? generics = null)
@@ -192,31 +196,31 @@ public class HarmonyPatchBuilder<T> : HarmonyPatchBuilder
         return this;
     }
 
-    public HarmonyPatchBuilder<T> Constructor(Type[]? parameters = null)
+    internal HarmonyPatchBuilder<T> Constructor(Type[]? parameters = null)
     {
         base.Constructor<T>(parameters);
         return this;
     }
 
-    public new HarmonyPatchBuilder<T> Prefix(Delegate prefix)
+    internal new HarmonyPatchBuilder<T> Prefix(Delegate prefix)
     {
         base.Prefix(prefix);
         return this;
     }
 
-    public new HarmonyPatchBuilder<T> Postfix(Delegate postfix)
+    internal new HarmonyPatchBuilder<T> Postfix(Delegate postfix)
     {
         base.Postfix(postfix);
         return this;
     }
 
-    public new HarmonyPatchBuilder Transpiler(Delegate transpiler)
+    internal new HarmonyPatchBuilder Transpiler(Delegate transpiler)
     {
         base.Transpiler(transpiler);
         return this;
     }
 
-    public new HarmonyPatchBuilder Finalizer(Delegate finalizer)
+    internal new HarmonyPatchBuilder Finalizer(Delegate finalizer)
     {
         base.Transpiler(finalizer);
         return this;

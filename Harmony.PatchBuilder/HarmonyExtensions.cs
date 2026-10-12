@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿#pragma warning disable
+#nullable enable
 
 namespace HarmonyLib.PatchBuilder;
 
-public static class HarmonyExtensions
+internal static class HarmonyExtensions
 {
-    public static HarmonyPatchBuilder<T> Patch<T>(this Harmony harmony)
+    internal static HarmonyPatchBuilder<T> Patch<T>(this Harmony harmony)
         => new HarmonyPatchBuilder<T>(harmony);
 
-    public static HarmonyPatchBuilder Patch(this Harmony harmony)
+    internal static HarmonyPatchBuilder Patch(this Harmony harmony)
         => new HarmonyPatchBuilder(harmony);
 }
