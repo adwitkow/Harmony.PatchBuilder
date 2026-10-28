@@ -31,6 +31,6 @@
           Pack="true"
           PackagePath="contentFiles/cs/any/$(PackageId)/%(RelativeDir)"
           BuildAction="Compile" />
+    <None Include="build/Harmony.PatchBuilder.props" Pack="true" PackagePath="build/" />
   </ItemGroup>
-
 </Project>
